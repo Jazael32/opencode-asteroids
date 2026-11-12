@@ -30,6 +30,21 @@ Luego visita `http://localhost:3000`.
 | `↑`       | Propulsar  |
 | `Espacio` | Disparar   |
 | `X`       | Triple disparo (5 s, luego recarga) |
+| `C`       | Cambiar skin de la nave |
+
+## Skins
+
+Pulsa `C` en cualquier momento (incluso durante la partida o en la pantalla de fin de partida) para ciclar entre las skins de la nave:
+
+| Skin      | Apariencia                          |
+| --------- | ----------------------------------- |
+| CLÁSICA   | Triángulo blanco con muesca         |
+| CAZA      | Flecha cian afilada                 |
+| TITÁN     | Nave robusta naranja                |
+| NEBULOSA  | Dardo magenta con relleno translúcido |
+| ESPECTRO  | Dardo delgado verde                 |
+
+El color de la nave también tiñe sus balas y los iconos de vidas. La skin elegida se recuerda entre sesiones (localStorage).
 
 ## Puntuación
 
@@ -61,3 +76,4 @@ Al destruir un asteroide hay un 10% de probabilidad de que suelte un ítem flota
 - Triple disparo: con la tecla `X`, la nave dispara 3 balas en abanico estrecho (±10°) durante 5 segundos; luego entra en recarga de 10 segundos
 - Power-ups: velocidad (empuje x2) y escudo (protege de los impactos)
 - Partículas de explosión al destruir asteroides
+- Sistema de skins para la nave (tecla `C`), con elección recordada entre sesiones

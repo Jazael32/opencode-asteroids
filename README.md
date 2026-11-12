@@ -29,6 +29,21 @@ Luego visita `http://localhost:3000`.
 | `←` `→`   | Rotar nave |
 | `↑`       | Propulsar  |
 | `Espacio` | Disparar   |
+| `C`       | Cambiar skin de la nave |
+
+## Skins
+
+Pulsa `C` en cualquier momento (incluso durante la partida o en la pantalla de fin de partida) para ciclar entre las skins de la nave:
+
+| Skin      | Apariencia                          |
+| --------- | ----------------------------------- |
+| CLÁSICA   | Triángulo blanco con muesca         |
+| CAZA      | Flecha cian afilada                 |
+| TITÁN     | Nave robusta naranja                |
+| NEBULOSA  | Dardo magenta con relleno translúcido |
+| ESPECTRO  | Dardo delgado verde                 |
+
+El color de la nave también tiñe sus balas y los iconos de vidas. La skin elegida se recuerda entre sesiones (localStorage).
 
 ## Puntuación
 
@@ -49,3 +64,4 @@ Asteroide especial que aparece cada 8–15 segundos, cruzando la pantalla desde 
 - Asteroides se parten en fragmentos más pequeños al ser destruidos
 - Estrella fugaz: asteroide rápido y temporal que otorga un bonus de puntos
 - Partículas de explosión al destruir asteroides
+- Sistema de skins para la nave (tecla `C`), con elección recordada entre sesiones

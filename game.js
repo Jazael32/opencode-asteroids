@@ -68,6 +68,11 @@ const POWERUP_DURATION    = 5;    // segundos de efecto
 const POWERUP_SPEED_MULT  = 2;    // multiplicador de empuje
 const POWERUP_TTL         = 8;    // segundos que flota el ítem antes de expirar
 
+// ── Triple disparo ────────────────────────────────────────────────────────────
+const TRIPLE_DURATION = 5;              // segundos de efecto
+const TRIPLE_COOLDOWN = 10;             // recarga tras expirar (para que no sea permanente)
+const TRIPLE_SPREAD   = Math.PI / 18;   // abanico estrecho: ±10°
+
 class Asteroid {
   constructor(x, y, size = 3) {
     this.x    = x;
@@ -203,6 +208,8 @@ class Ship {
     this.invincible    = 3;
     this.shootCooldown = 0;
     this.speedTime     = 0;   // tiempo restante del power-up "Velocidad"
+    this.tripleTime    = 0;   // tiempo restante del triple disparo
+    this.tripleCd      = 0;   // recarga del triple disparo
     this.dead          = false;
   }
 
@@ -216,6 +223,13 @@ class Ship {
     const DRAG   = 0.987;
 
     if (this.speedTime > 0) this.speedTime -= dt;
+
+    // Triple disparo: al expirar el efecto arranca la recarga
+    if (this.tripleTime > 0) {
+      this.tripleTime -= dt;
+      if (this.tripleTime <= 0) this.tripleCd = TRIPLE_COOLDOWN;
+    }
+    if (this.tripleCd > 0) this.tripleCd -= dt;
 
     if (keys['ArrowLeft'])  this.angle -= ROT * dt;
     if (keys['ArrowRight']) this.angle += ROT * dt;
@@ -238,7 +252,21 @@ class Ship {
     const NOSE = 21;
     const ox = this.x + Math.cos(this.angle) * NOSE;
     const oy = this.y + Math.sin(this.angle) * NOSE;
+    if (this.tripleTime > 0) {
+      // Abanico estrecho: ±TRIPLE_SPREAD alrededor del rumbo de la nave
+      return [
+        new Bullet(ox, oy, this.angle - TRIPLE_SPREAD),
+        new Bullet(ox, oy, this.angle),
+        new Bullet(ox, oy, this.angle + TRIPLE_SPREAD),
+      ];
+    }
     return [new Bullet(ox, oy, this.angle)];
+  }
+
+  activateTriple() {
+    if (this.dead || this.tripleTime > 0 || this.tripleCd > 0) return;
+    this.tripleTime = TRIPLE_DURATION;
+    explode(this.x, this.y, 4); // feedback de activación
   }
 
   draw() {
@@ -450,6 +478,9 @@ function update(dt) {
     bullets.push(...ship.tryShoot());
   }
 
+  // Activar triple disparo
+  if (pressed('KeyX')) ship.activateTriple();
+
   ship.update(dt);
   bullets.forEach(b => b.update(dt));
   asteroids.forEach(a => a.update(dt));
@@ -566,6 +597,15 @@ function drawHUD() {
   if (ship.speedTime > 0) {
     ctx.fillStyle = '#0ff';
     ctx.fillText(`VELOCIDAD ${Math.ceil(ship.speedTime)}s`, 14, 48);
+  }
+
+  // Estado del triple disparo (activo en magenta, recarga en gris tenue)
+  if (ship.tripleTime > 0) {
+    ctx.fillStyle = '#f6f';
+    ctx.fillText(`TRIPLE ${Math.ceil(ship.tripleTime)}s`, 14, 70);
+  } else if (ship.tripleCd > 0) {
+    ctx.fillStyle = 'rgba(255,255,255,0.4)';
+    ctx.fillText(`TRIPLE ${Math.ceil(ship.tripleCd)}s`, 14, 70);
   }
 }
 

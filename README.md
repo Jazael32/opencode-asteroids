@@ -29,6 +29,7 @@ Luego visita `http://localhost:3000`.
 | `←` `→`   | Rotar nave |
 | `↑`       | Propulsar  |
 | `Espacio` | Disparar   |
+| `X`       | Triple disparo (5 s, luego recarga) |
 
 ## Puntuación
 
@@ -48,4 +49,5 @@ Asteroide especial que aparece cada 8–15 segundos, cruzando la pantalla desde 
 - 3 vidas con invencibilidad temporal al reaparecer (parpadeo)
 - Asteroides se parten en fragmentos más pequeños al ser destruidos
 - Estrella fugaz: asteroide rápido y temporal que otorga un bonus de puntos
+- Triple disparo: con la tecla `X`, la nave dispara 3 balas en abanico estrecho (±10°) durante 5 segundos; luego entra en recarga de 10 segundos
 - Partículas de explosión al destruir asteroides
